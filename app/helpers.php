@@ -7,7 +7,13 @@ use Illuminate\Support\Facades\Validator;
 if (! function_exists('check_estimation')) {
     function check_estimation(string $est)
     {
-        return preg_match("/^(\d[hdwmy])+$/", $est);
+        if (!$checkResult = preg_match("/^(\d[hdwmy])+$/", $est)) {
+            $ex = new \Exception();
+            $ex->fields = [
+                'estimation' => 'Неправильный формат оценки'
+            ];
+            throw $ex;
+        }
     }
 }
 if (! function_exists('check_task_id')) {

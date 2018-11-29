@@ -44,13 +44,7 @@ class TaskController extends Controller
             'id' => 'required|string',
             'estimation' => 'required|string'
         ]);
-        if (!check_estimation($request->estimation)) {
-            $ex = new \Exception();
-            $ex->fields = [
-                'estimation' => 'Неправильный формат оценки'
-            ];
-            throw $ex;
-        }
+        check_estimation($request->estimation);
         $task = check_task_id($request->id, null, 'id');
         $task->estimation = $request->estimation;
         $task->save();
