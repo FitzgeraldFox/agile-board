@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Facades\TaskService;
 use App\Task;
 use Illuminate\Http\Request;
 
@@ -44,8 +45,8 @@ class TaskController extends Controller
             'id' => 'required|string',
             'estimation' => 'required|string'
         ]);
-        check_estimation($request->estimation);
-        $task = check_task_id($request->id, null, 'id');
+        TaskService::checkEstimation($request->estimation);
+        $task = TaskService::checkTaskId($request->id, null, 'id');
         $task->estimation = $request->estimation;
         $task->save();
     }
@@ -60,6 +61,6 @@ class TaskController extends Controller
         validate_args($request->all(), [
             'taskId' => 'required|string'
         ]);
-        check_task_id($request->taskId)->delete();
+        TaskService::checkTaskId($request->taskId)->delete();
     }
 }

@@ -2,8 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Facades\SprintService;
+use App\Facades\TaskService;
 use App\Sprint;
-use App\Task;
 use Illuminate\Http\Request;
 
 class SprintController extends Controller
@@ -48,7 +49,7 @@ class SprintController extends Controller
 
         $taskIdParts = explode('-', $request->taskId);
         check_sprint_id($request->sprintId);
-        $task = check_task_id($request->taskId, $taskIdParts);
+        $task = TaskService::checkTaskId($request->taskId, $taskIdParts);
         $task->sprint_id = $request->sprintId;
         $task->save();
     }
@@ -63,7 +64,7 @@ class SprintController extends Controller
         validate_args($request->all(), [
             'sprintId' => 'required|string|max:5',
         ]);
-        $sprint = check_sprint_id($request->sprintId);
+        $sprint = SprintService::checkSprintId($request->sprintId);
         $sprint->active = true;
         $sprint->save();
     }
