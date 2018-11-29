@@ -18,8 +18,8 @@ class SprintController extends Controller
     public function create(Request $request): string
     {
         validate_args($request->all(), [
-            'Week' => 'required|string|max:2',
-            'Year' => 'required|string|max:4',
+            'Week' => 'required|integer|max:12',
+            'Year' => 'required|integer',
         ]);
         $createdSprint = Sprint::firstOrCreate([
             'id' => "{$request->Year}-{$request->Week}"
@@ -48,7 +48,7 @@ class SprintController extends Controller
         ]);
 
         $taskIdParts = explode('-', $request->taskId);
-        check_sprint_id($request->sprintId);
+        SprintService::checkSprintId($request->sprintId);
         $task = TaskService::checkTaskId($request->taskId, $taskIdParts);
         $task->sprint_id = $request->sprintId;
         $task->save();

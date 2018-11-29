@@ -147,3 +147,15 @@ POST /api/tasks/close
 1. composer install
 2. Скопировать файл .env.example в .env и прописать соединение с базой
 3. php artisan migrate
+
+**Тестирование**
+
+!Для тестирования используется база данных sqlite, данные хранятся в памяти.
+
+В начале всех тестов накатываются миграции, в конце - откатываются.
+
+После каждого теста БД очищается.
+ 
+- Для прогона всех тестов: ./vendor/bin/phpunit
+- Для прогона одного теста: ./vendor/bin/phpunit tests/Unit/SprintControllerTest.php
+- Для прогона конкретного метода конкретного теста: ./vendor/bin/phpunit --filter "/(::testStart)( .*)?$/" tests/Unit/SprintControllerTest.php
